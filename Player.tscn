@@ -1,0 +1,140 @@
+[gd_scene load_steps=23 format=2]
+
+[ext_resource path="res://Player.gd" type="Script" id=1]
+[ext_resource path="res://characterDemo/idle.png" type="Texture" id=2]
+[ext_resource path="res://characterDemo/rise.png" type="Texture" id=3]
+[ext_resource path="res://characterDemo/run00.png" type="Texture" id=4]
+[ext_resource path="res://characterDemo/run02.png" type="Texture" id=5]
+[ext_resource path="res://characterDemo/run03.png" type="Texture" id=6]
+[ext_resource path="res://characterDemo/run05.png" type="Texture" id=7]
+[ext_resource path="res://characterDemo/run06.png" type="Texture" id=8]
+[ext_resource path="res://characterDemo/run07.png" type="Texture" id=9]
+[ext_resource path="res://characterDemo/fall.png" type="Texture" id=10]
+[ext_resource path="res://effects/jetfire_particle.png" type="Texture" id=11]
+[ext_resource path="res://icon.png" type="Texture" id=12]
+[ext_resource path="res://effects/fire_particle.png" type="Texture" id=13]
+
+[sub_resource type="SpriteFrames" id=1]
+animations = [ {
+"frames": [ ExtResource( 2 ) ],
+"loop": true,
+"name": "Idle",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 3 ) ],
+"loop": true,
+"name": "Rise",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 4 ), ExtResource( 5 ), ExtResource( 6 ), ExtResource( 7 ), ExtResource( 8 ), ExtResource( 9 ) ],
+"loop": true,
+"name": "Run",
+"speed": 13.0
+}, {
+"frames": [ ExtResource( 10 ) ],
+"loop": true,
+"name": "Fall",
+"speed": 30.0
+} ]
+
+[sub_resource type="CapsuleShape2D" id=2]
+radius = 8.4616
+height = 40.1764
+
+[sub_resource type="CanvasItemMaterial" id=3]
+blend_mode = 1
+
+[sub_resource type="Gradient" id=4]
+offsets = PoolRealArray( 0, 0.451852, 0.940741 )
+colors = PoolColorArray( 0.855469, 0.612492, 0.0969086, 1, 0.683594, 0.485158, 0.0640869, 1, 0.960938, 0.255249, 0.255249, 1 )
+
+[sub_resource type="GradientTexture" id=5]
+gradient = SubResource( 4 )
+
+[sub_resource type="Curve" id=6]
+_data = [ Vector2( 0, 1 ), -0.730427, 0.0, 0, 0, Vector2( 1, 1 ), -1.42888, 0.0, 0, 0 ]
+
+[sub_resource type="CurveTexture" id=7]
+width = 32
+curve = SubResource( 6 )
+
+[sub_resource type="ParticlesMaterial" id=8]
+flag_disable_z = true
+spread = 0.0
+gravity = Vector3( 0, 50, 0 )
+initial_velocity = 1.0
+initial_velocity_random = 0.24
+angular_velocity = 1.05
+orbit_velocity = 0.0
+orbit_velocity_random = 0.0
+linear_accel = 10.0
+scale = 0.2
+scale_curve = SubResource( 7 )
+color_ramp = SubResource( 5 )
+
+[sub_resource type="RectangleShape2D" id=9]
+extents = Vector2( 680.441, 31.9406 )
+
+[node name="Node2D" type="Node"]
+
+[node name="Player" type="KinematicBody2D" parent="."]
+position = Vector2( 229.959, 171.722 )
+scale = Vector2( 1.24902, 1.28534 )
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Anime" type="AnimatedSprite" parent="Player"]
+position = Vector2( -0.100658, 0 )
+frames = SubResource( 1 )
+animation = "Idle"
+playing = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Player"]
+position = Vector2( 0.899342, 3.79649 )
+shape = SubResource( 2 )
+
+[node name="JetStream" type="Particles2D" parent="Player"]
+show_behind_parent = true
+material = SubResource( 3 )
+position = Vector2( -10.3, 13 )
+rotation = 0.161182
+z_index = -1
+amount = 10
+explosiveness = 0.01
+fract_delta = false
+process_material = SubResource( 8 )
+texture = ExtResource( 11 )
+
+[node name="Floor" type="StaticBody2D" parent="."]
+position = Vector2( 83.1981, 410.036 )
+rotation = 0.313305
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Sprite" type="Sprite" parent="Floor"]
+modulate = Color( 0.0901961, 0.0823529, 0.0823529, 1 )
+position = Vector2( 337.644, 0 )
+scale = Vector2( 21.1607, 1 )
+texture = ExtResource( 12 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Floor"]
+position = Vector2( 336, 0 )
+shape = SubResource( 9 )
+
+[node name="Effects" type="Sprite" parent="."]
+visible = false
+modulate = Color( 0.8, 0.756863, 0.486275, 0.580392 )
+texture = ExtResource( 12 )
+
+[node name="Rasengan" type="Particles2D" parent="Effects"]
+material = SubResource( 3 )
+position = Vector2( 135.066, 161.339 )
+amount = 10
+preprocess = 1.0
+speed_scale = 0.6
+fract_delta = false
+process_material = SubResource( 8 )
+texture = ExtResource( 13 )

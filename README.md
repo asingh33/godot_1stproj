@@ -7,7 +7,6 @@ Disclaimer: The player sprite is not created by me but was taken from one of the
 Just import the project in Godot and it work as expected. I have tried it already on Mac and Windows.
 Use the arrow keys to control the character.
 
-![](https://github.com/asingh33/godot_1stproj/blob/master/pic.png)
+![](https://github.com/asingh33/godot_1stproj/blob/master/output%20(2).gif)
 
 
-![](https://github.com/asingh33/godot_1stproj/blob/master/fly.png)
